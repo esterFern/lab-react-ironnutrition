@@ -74,6 +74,21 @@ class App extends Component {
     }
   }
 
+  handleDelete = (event, food) =>{
+    
+    let pos;
+    this.state.foodsToday.forEach((e, index) => {
+      if (e.name == food.name){
+        pos = index;
+      }
+    })
+    let todayList = [...this.state.foodsToday];
+    todayList.splice(pos, 1);
+    this.setState({
+      foodsToday: todayList
+    });
+  }
+
   renderForm() {
     if (!this.state.formVisible) {
       return <button onClick={this.handleClickForm}>Add new food</button>
@@ -97,8 +112,9 @@ class App extends Component {
 
   renderFoodListToday() {
     return this.state.foodsToday.map((e, index) => {
-      return (<li>
+      return (<li key={'id-'+index}>
         {e.quantity} {e.name} = {e.quantity * e.calories} cal
+        <button onClick={(event)=>this.handleDelete(event, e)}>Delete</button>
       </li>);
     });
   }
