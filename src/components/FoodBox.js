@@ -15,15 +15,17 @@ class FoodBox extends Component {
   }
 
   handleAdd = (e) => {
+    e.preventDefault();
     if (this.state.quantity > 0) {
       const food = {
         name: this.props.name,
         calories: this.props.cal,
         image: this.props.image,
-        quantity: this.state.quantity
+        quantity: e.target.quantity.value
       }
       this.props.handleAdd(food);
     }
+    
   }
 
   render() {
@@ -44,6 +46,7 @@ class FoodBox extends Component {
             </div>
           </div>
           <div className="media-right">
+          <form onSubmit={(e) => this.handleAdd(e)}>
             <div className="field has-addons">
               <div className="control">
                 <input
@@ -55,11 +58,12 @@ class FoodBox extends Component {
                 />
               </div>
               <div className="control">
-                <button className="button is-info" onClick={(e) => this.handleAdd(e)} name={this.props.name}>
+                <button className="button is-info" type="submit" name={this.props.name}>
                   +
           </button>
               </div>
             </div>
+            </form>
           </div>
         </article>
       </div>

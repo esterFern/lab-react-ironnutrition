@@ -8,6 +8,33 @@ import Form from './components/Form';
 import Search from './components/Search';
 import ListFoods from './components/ListFoods';
 
+const foodListStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  margin: '10px'
+}
+
+const twoListStyle = {
+  margin: '0 50px',
+  width: '50%'
+}
+
+const containerStyle = {
+  margin: '20px',
+}
+
+const titleStyle={
+  fontSize: '50px'
+}
+
+const deleteStyle={
+  margin: '0 5px'
+}
+
+const listElementStyle={
+  margin: '10px 0'
+}
+
 class App extends Component {
 
   state = {
@@ -30,8 +57,9 @@ class App extends Component {
   }
 
   handleSearch = (nameFood) => {
-
+    console.log(this.state.foods)
     const filteredList = foods.filter((e) => e.name.toLowerCase().includes(nameFood.toLowerCase()));
+    console.log(filteredList);
     this.setState({
       foods: filteredList
     })
@@ -67,18 +95,18 @@ class App extends Component {
       this.setState({
         foodsToday: todayList
       })
-    }else{
+    } else {
       this.setState({
         foodsToday: [...this.state.foodsToday, food]
       })
     }
   }
 
-  handleDelete = (event, food) =>{
-    
+  handleDelete = (event, food) => {
+
     let pos;
     this.state.foodsToday.forEach((e, index) => {
-      if (e.name == food.name){
+      if (e.name == food.name) {
         pos = index;
       }
     })
@@ -91,7 +119,7 @@ class App extends Component {
 
   renderForm() {
     if (!this.state.formVisible) {
-      return <button onClick={this.handleClickForm}>Add new food</button>
+      return <button onClick={this.handleClickForm} className="button is-primary">Add new food</button>
     } else {
       return <Form onFood={this.handleSubmit} />
     }
@@ -112,9 +140,9 @@ class App extends Component {
 
   renderFoodListToday() {
     return this.state.foodsToday.map((e, index) => {
-      return (<li key={'id-'+index}>
+      return (<li key={'id-' + index} style={listElementStyle}>
         {e.quantity} {e.name} = {e.quantity * e.calories} cal
-        <button onClick={(event)=>this.handleDelete(event, e)}>Delete</button>
+        <button className="button is-danger is-rounded is-small" style={deleteStyle} onClick={(event) => this.handleDelete(event, e)}>Delete</button>
       </li>);
     });
   }
@@ -123,13 +151,13 @@ class App extends Component {
     if (this.state.foodsToday.length === 0) {
       return (
         <ListFoods total={0}>
-          <p>No foods yet</p>
+          <p>No food yet</p>
         </ListFoods>);
     } else {
       let total = 0;
-      this.state.foodsToday.forEach((e)=>{
-        total = total + (e.quantity*e.calories);
-      }); 
+      this.state.foodsToday.forEach((e) => {
+        total = total + (e.quantity * e.calories);
+      });
       return (
         <ListFoods total={total}>
           {this.renderFoodListToday()}
@@ -140,10 +168,22 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Search onSearch={this.handleSearch} />
-        {this.renderForm()}
-        {this.renderList()}
-        {this.renderListToday()}
+        <div style={containerStyle}>
+          <h1 style={titleStyle}>Ironutrition</h1>
+          <Search onSearch={this.handleSearch} />
+        </div>
+        <div style={containerStyle}>
+          {this.renderForm()}
+        </div>
+        <div style={foodListStyle}>
+          <div style={twoListStyle}>
+            {this.renderList()}
+          </div>
+          <div style={twoListStyle}>
+            {this.renderListToday()}
+          </div>
+        </div>
+
       </div>
     );
   }

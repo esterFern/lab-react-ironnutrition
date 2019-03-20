@@ -6,8 +6,6 @@ class Form extends Component {
     name: '',
   }
 
-  
-
   handleChange = async (e) => {
     await this.setState({
       [e.target.name]: e.target.value
@@ -18,9 +16,10 @@ class Form extends Component {
   render() {
     return (
       <input
+        className="input"
         name="name"
         placeholder="Search by name"
-        onChange={(e)=>this.handleChange(e)}
+        onChange={(e) => this.handleChange(e)}
         value={this.state.name}
       />
     );
